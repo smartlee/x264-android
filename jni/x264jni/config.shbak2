@@ -1,0 +1,17 @@
+#!/bin/bash
+export TMPDIR="/home/lee/temp/android"
+export NDKROOT="/home/lee/android-ndk-r8"
+export PREBUILT=$NDKROOT/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86
+export PLATFORM=$NDKROOT/platforms/android-9/arch-arm
+export PATH=$PREBUILT/bin:$PATH
+
+./configure --prefix=/home/lee/armlib \
+    --libdir=/home/lee/armlib/lib \
+    --includedir=/home/lee/armlib/include \
+    --host=arm-linux \
+	--cross-prefix=$PREBUILT/bin/arm-linux-androideabi- \
+	--extra-cflags="-I$PLATFORM/usr/include -fPIC  " \
+    --disable-cli \
+    --enable-shared \
+    --enable-pic \
+	--extra-ldflags="-Wl,-T,$PREBUILT/arm-linux-androideabi/lib/ldscripts/armelf_linux_eabi.x -Wl,-rpath-link=$PLATFORM/usr/lib -L$PLATFORM/usr/lib -nostdlib $PREBUILT/lib/gcc/arm-linux-androideabi/4.4.3/armv7-a/crtbegin.o $PREBUILT/lib/gcc/arm-linux-androideabi/4.4.3/armv7-a/crtend.o -lc  -ldl -lgcc "
